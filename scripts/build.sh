@@ -60,6 +60,13 @@ fi
 # ---------------------------
 GLIBC_TAR="$SOURCES_DIR/glibc-2.39.tar.xz"
 GLIBC_BUILD_DIR="$BUILD_DIR/build/glibc/build"
+GLIBC_URL="https://ftp.gnu.org/gnu/libc/glibc-2.39.tar.xz"
+
+# Download if not present
+if [ ! -f "$GLIBC_TAR" ]; then
+  echo "Downloading glibc-2.39..."
+  wget -O "$GLIBC_TAR" "$GLIBC_URL"
+fi
 
 rm -rf "$BUILD_DIR/build/glibc"
 mkdir -p "$BUILD_DIR/build/glibc"
@@ -91,6 +98,13 @@ fi
 # ---------------------------
 NCURSES_TAR="$SOURCES_DIR/ncurses.tar.gz"
 NCURSES_SRC_DIR="$BUILD_DIR/build/ncurses/ncurses-6.3"
+NCURSES_URL="https://invisible-island.net/datafiles/release/ncurses.tar.gz"
+
+# Download if not present
+if [ ! -f "$NCURSES_TAR" ]; then
+  echo "Downloading ncurses..."
+  wget -O "$NCURSES_TAR" "$NCURSES_URL"
+fi
 
 rm -rf "$BUILD_DIR/build/ncurses"
 mkdir -p "$BUILD_DIR/build/ncurses"
@@ -125,6 +139,13 @@ fi
 # ---------------------------
 BASH_TAR="$SOURCES_DIR/bash-5.2.21.tar.gz"
 BASH_SRC_DIR="$BUILD_DIR/build/bash/bash-5.2.21"
+BASH_URL="https://ftp.gnu.org/gnu/bash/bash-5.2.21.tar.gz"
+
+# Download if not present
+if [ ! -f "$BASH_TAR" ]; then
+  echo "Downloading bash..."
+  wget -O "$BASH_TAR" "$BASH_URL"
+fi
 
 rm -rf "$BUILD_DIR/build/bash"
 mkdir -p "$BUILD_DIR/build/bash"
@@ -167,7 +188,7 @@ make -j"$(nproc)"
 make DESTDIR="$ROOTFS" install
 
 # Create symlink for /bin/sh -> dash
-ln -svf dash "$ROOTFS/bin/sh"
+ln -svf dash "/bin/sh"
 
 echo "Dash installed successfully to $ROOTFS/bin/dash"
 echo "Symlink created: /bin/sh -> dash"
